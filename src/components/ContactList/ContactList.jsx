@@ -1,9 +1,16 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact } from '../../redux/contactsSlice';
+
 import css from './ContactList.module.css';
 import Contact from './Contact';
-export default function ContactList({ contacts, filter, onDeleteContact }) {
-  const normalizedFilter = filter.toLowerCase();
+
+export default function ContactList() {
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.items);
+  const filter = useSelector(state => state.filters.name.toLowerCase());
+
   const visibleContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().startsWith(normalizedFilter)
+    contact.name.toLowerCase().startsWith(filter)
   );
   return (
     <div className={css.contactList}>
@@ -14,7 +21,7 @@ export default function ContactList({ contacts, filter, onDeleteContact }) {
             id={contact.id}
             name={contact.name}
             number={contact.number}
-            onDelete={onDeleteContact}
+            onDelete={() => dispatch(deleteContact(contact.id))}
           />
         ))
       ) : (

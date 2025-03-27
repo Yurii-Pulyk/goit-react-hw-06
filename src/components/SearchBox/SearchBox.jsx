@@ -1,13 +1,17 @@
 import css from './SearchBox.module.css';
-export default function SearchBox({ filter, onFilterChange }) {
+import { useDispatch, useSelector } from 'react-redux';
+import { changefilter } from '../../redux/filtersSlice';
+export default function SearchBox() {
+  const dispatch = useDispatch();
+  const filter = useSelector(state => state.filters.name);
+
   return (
     <div>
-      {/* <p>Find conacts be name </p> */}
       <input
         type="text"
         placeholder="Find conacts be name"
         value={filter}
-        onChange={e => onFilterChange(e.target.value)}
+        onChange={e => dispatch(e.target.value)}
         className={css.searchBox}
       />
     </div>
